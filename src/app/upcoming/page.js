@@ -1,0 +1,97 @@
+"use client";
+
+import { FooterSection } from "../features.js/FooterSection";
+import { HeaderSection } from "../features.js/HeaderSection";
+import { LittleStar } from "../icons/LittleStar";
+import { useState, useEffect } from "react";
+import { PagesLeftArrow } from "../icons/PagesLeftArrow";
+import { PagesRightArrow } from "../icons/PagesRightArrow";
+
+const api_token =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
+
+export default function UpcomingPage() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dark, setDark] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const getData = async () => {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+      { headers: { Authorization: `Bearer ${api_token}` } },
+    );
+
+    const jsonData = await response.json();
+
+    return jsonData.results;
+  };
+
+  useEffect(() => {
+    getData()
+      .then((data) => setData(data))
+      .catch(() => setErrorMessage("MOVIE API ERROR"))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  console.log(data, "this is my data");
+
+  return (
+    <>
+      <HeaderSection />
+      <section className="w-full bg-white flex flex-col items-center py-8">
+        {/* Header Section */}
+        <div className="flex justify-between items-center w-full max-w-7xl px-4">
+          <h2 className="text-2xl font-semibold">Upcoming</h2>
+        </div>
+
+        {/* Movie Grid */}
+        <div className="w-full max-w-7xl px-4 mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          {loading && <div>Loading...</div>}
+          {!loading && errorMessage && <div>{errorMessage}</div>}
+          {!loading &&
+            !errorMessage &&
+            data.slice(0, 10).map((movie) => (
+              <div
+                key={movie.id}
+                className="rounded-lg overflow-hidden bg-gray-100 shadow-sm flex flex-col group hover:shadow-md transition-shadow"
+                style={{ cursor: "pointer" }}
+              >
+                {/* Movie Poster */}
+                <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>
+
+                {/* Movie Info */}
+                <div className="p-3 flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <LittleStar />
+                    <span className="text-sm font-medium">
+                      {Math.floor(movie.vote_average)}
+                      <span className="text-gray-400 text-xs font-normal">
+                        /10
+                      </span>
+                    </span>
+                  </div>
+                  <span
+                    className="text-base font-normal truncate"
+                    title={movie.title}
+                  >
+                    {movie.title}
+                  </span>
+                </div>
+              </div>
+            ))}
+        </div>
+        <div className="w-7xl h-10 bg-black">
+          <PagesLeftArrow/>
+          <p>Previous</p>
+          <div className="w-10 h-10 rounded-lg group hover:shadow-md transition-shadow flex items-center justify-center" >1</div>
+        </div>
+      </section>
+      <div className="mt-19">
+        <FooterSection />
+      </div>
+    </>
+  );
+}

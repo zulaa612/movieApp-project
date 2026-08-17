@@ -16,7 +16,7 @@ export const PopularMovies = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
       { headers: { Authorization: `Bearer ${api_token}` } },
     );
 
@@ -38,7 +38,7 @@ export const PopularMovies = () => {
 
   const router = useRouter();
   const navigateToUpComingPage = () => {
-    router.push("/upcoming");
+    router.push("/popular");
   };
 
   const handleMovieClick = (id) => {
@@ -75,8 +75,12 @@ export const PopularMovies = () => {
               onClick={() => handleMovieClick(movie.id)}
             >
               {/* Movie Poster */}
-              <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>
-
+              <div
+                className="w-full h-80 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path})`,
+                }}
+              ></div>
               {/* Movie Info */}
               <div className="p-3 flex flex-col gap-1">
                 <div className="flex items-center gap-1">

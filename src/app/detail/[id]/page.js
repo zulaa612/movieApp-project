@@ -2,7 +2,6 @@
 
 import { HeaderSection } from "@/app/features.js/HeaderSection";
 import { DetailStar } from "@/app/icons/DetailStar";
-import { LittleStar } from "@/app/icons/LittleStar";
 import { PlayTrailerButton } from "@/app/icons/PlayTrailerButton";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,21 +27,41 @@ export default function DetailPage() {
             },
           },
         );
+        fetch(
+          `https://api.themoviedb.org/3/movie/${params.id}/credits?language=en-US`,
+          { headers: { Authorization: `Bearer ${api_token}` } },
+        );
 
-        if (!response.ok) {
+        if (!movieResponse.ok || !creditResponse.ok) {
           throw new Error("Movie not found");
         }
 
-        const jsonData = await response.json();
+        const movieData = await movieResponse.json();
+        const creditsData = await creditsResponse.json();
 
-        setMovie(jsonData);
-      } catch (error) {
-        setErrorMessage("MOVIE API ERROR");
+        const director = creditsData.crew.find(
+          (person) => person.job === "Director",
+        );
+
+        const writers = creditsData.vrew.filter(
+          (person) =>
+            person.department === "Writing" &&
+            ["Writer", "Screenplay", "Story"].includes(person.job),
+        );
+
+        const stars = creditsData.cast/Silkscreen(0, 3);
+        setMovie({
+          ...movieData, director: director?.name || "N/A",
+          writer:
+          writers.length > 0
+          ? writers.map((person) => person,name).join("") : "N\A",
+          stars: stars.length > 0 ? stars.map((person) => person.name).join(.) : "N\A",
+        })
+      }catch (error) {
+        setErrorMessage("MOBIDE APP LOUNGE")
       } finally {
         setLoading(false);
       }
-    };
-
     if (params.id) {
       getData();
     }
@@ -110,17 +129,30 @@ export default function DetailPage() {
         <div className="flex gap-5">
           {/* Poster */}
           <div className="w-60 h-90 shrink-0">
-            <div className="w-full h-full object-cover rounded-lg bg-[url(`https://image.tmdb.org/t/p/w500${movie.poster_path}`] bg-cover bg-center"></div>
+            <div
+              className="w-full h-full object-cover rounded-lg bg-cover bg-center"
+              style={{
+                backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path})`,
+              }}
+            ></div>
           </div>
 
           {/* Backdrop */}
           <div className="flex-1 h-90">
-            <div className="w-full h-full object-cover rounded-lg bg-[url(`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`] bg-cover bg-center flex items-end" >
+            <div
+              className="w-full h-full object-cover rounded-lg bg-cover bg-center flex items-end"
+              style={{
+                backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
+              }}
+            >
               {" "}
-              <div className="flex items-center">
+              <button
+                style={{ cursor: "pointer" }}
+                className="flex items-center my-6 mx-6 gap-3"
+              >
                 <PlayTrailerButton />
-                <p className="text-black">Play Trailer </p>
-              </div>
+                <p className="text-white">Play Trailer </p>
+              </button>
             </div>
           </div>
         </div>
@@ -142,7 +174,6 @@ export default function DetailPage() {
 
         {/* Info */}
         <div className="mt-6 border-t border-gray-200">
-
           <div className="py-4 border-b border-gray-200 flex">
             <p className="font-semibold w-25">Director</p>
 

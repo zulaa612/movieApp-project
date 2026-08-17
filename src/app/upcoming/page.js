@@ -68,8 +68,13 @@ export default function UpcomingPage() {
                 onClick={() => handleMovieClick(movie.id)}
               >
                 {/* Movie Poster */}
-                <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>
 
+                <div
+                  className="w-full h-80 bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path})`,
+                  }}
+                ></div>
                 {/* Movie Info */}
                 <div className="p-3 flex flex-col gap-1">
                   <div className="flex items-center gap-1">

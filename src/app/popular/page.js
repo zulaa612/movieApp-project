@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "../components/Buttons";
 import { FooterSection } from "../features.js/FooterSection";
 import { HeaderSection } from "../features.js/HeaderSection";
 import { LittleStar } from "../icons/LittleStar";
@@ -81,8 +82,11 @@ export default function PopularPage() {
               </div>
             ))}
         </div>
+        <Button />
       </section>
-      <FooterSection />
+      <div className="mt-19">
+        <FooterSection />
+      </div>
     </>
   );
 }

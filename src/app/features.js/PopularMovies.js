@@ -2,9 +2,8 @@
 
 import { LittleStar } from "../icons/LittleStar";
 import { ArrowRight } from "../icons/ArrowRight";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
@@ -17,7 +16,7 @@ export const PopularMovies = () => {
 
   const getData = async () => {
     const response = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
       { headers: { Authorization: `Bearer ${api_token}` } },
     );
 
@@ -38,19 +37,24 @@ export const PopularMovies = () => {
   console.log(data, "this is my data");
 
   const router = useRouter();
-  const navigateToPopularPage = () => {
-    router.push("/popular");
+  const navigateToUpComingPage = () => {
+    router.push("/upcoming");
+  };
+
+  const handleMovieClick = (id) => {
+    router.push(`/detail/${id}`);
+    console.log(id);
   };
 
   return (
     <section className="w-full bg-white flex flex-col items-center py-8">
       {/* Header Section */}
       <div className="flex justify-between items-center w-full max-w-7xl px-4">
-        <h2 className="text-2xl font-semibold">Popular</h2>
+        <h2 className="text-2xl font-semibold">Popular </h2>
         <button
           className="flex gap-2 items-center text-sm font-medium hover:opacity-80 transition-opacity"
           style={{ cursor: "pointer" }}
-          onClick={navigateToPopularPage}
+          onClick={navigateToUpComingPage}
         >
           See more
           <ArrowRight />
@@ -68,7 +72,7 @@ export const PopularMovies = () => {
               key={movie.id}
               className="rounded-lg overflow-hidden bg-gray-100 shadow-sm flex flex-col group hover:shadow-md transition-shadow"
               style={{ cursor: "pointer" }}
-              onClick={navigateToPopularPage}
+              onClick={() => handleMovieClick(movie.id)}
             >
               {/* Movie Poster */}
               <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>

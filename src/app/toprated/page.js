@@ -1,9 +1,11 @@
 "use client";
 
+import { Button } from "../components/Buttons";
 import { FooterSection } from "../features.js/FooterSection";
 import { HeaderSection } from "../features.js/HeaderSection";
 import { LittleStar } from "../icons/LittleStar";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
@@ -35,6 +37,10 @@ export default function TopratedPage() {
   }, []);
 
   console.log(data, "this is my data");
+  const router = useRouter();
+  const handleMovieClick = (id) => {
+    router.push(`/detail/${id}`);
+  };
 
   return (
     <>
@@ -56,6 +62,7 @@ export default function TopratedPage() {
                 key={movie.id}
                 className="rounded-lg overflow-hidden bg-gray-100 shadow-sm flex flex-col group hover:shadow-md transition-shadow"
                 style={{ cursor: "pointer" }}
+                onClick={() => handleMovieClick(movie.id)}
               >
                 {/* Movie Poster */}
                 <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>
@@ -81,8 +88,11 @@ export default function TopratedPage() {
               </div>
             ))}
         </div>
+        <Button />
       </section>
-      <FooterSection />
+      <div className="mt-19">
+        <FooterSection />
+      </div>
     </>
   );
 }

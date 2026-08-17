@@ -41,6 +41,11 @@ export const Upcoming = () => {
     router.push("/upcoming");
   };
 
+  const handleMovieClick = (id) => {
+    router.push(`/detail/${id}`);
+    console.log(id);
+  };
+
   return (
     <section className="w-full bg-white flex flex-col items-center py-8">
       {/* Header Section */}
@@ -67,6 +72,7 @@ export const Upcoming = () => {
               key={movie.id}
               className="rounded-lg overflow-hidden bg-gray-100 shadow-sm flex flex-col group hover:shadow-md transition-shadow"
               style={{ cursor: "pointer" }}
+              onClick={() => handleMovieClick(movie.id)}
             >
               {/* Movie Poster */}
               <div className="w-full h-80 bg-[url(`https://image.tmdb.org/t/p/original/${movie.poster_path}`)] bg-cover bg-center"></div>

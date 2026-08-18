@@ -40,6 +40,10 @@ export const TopRated = () => {
   const navigateToTopratedPage = () => {
     router.push("/toprated");
   };
+  const handleMovieClick = (id) => {
+    router.push(`/detail/${id}`);
+    console.log(id);
+  };
 
   return (
     <section className="w-full bg-white flex flex-col items-center py-8">
@@ -67,6 +71,7 @@ export const TopRated = () => {
               key={movie.id}
               className="rounded-lg overflow-hidden bg-gray-100 shadow-sm flex flex-col group hover:shadow-md transition-shadow"
               style={{ cursor: "pointer" }}
+              onClick={() => handleMovieClick(movie.id)}
             >
               {/* Movie Poster */}
               <div
@@ -74,6 +79,7 @@ export const TopRated = () => {
                 style={{
                   backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path})`,
                 }}
+
               ></div>
               {/* Movie Info */}
               <div className="p-3 flex flex-col gap-1">

@@ -1,27 +1,29 @@
 "use client";
 
-import { Button } from "../components/Buttons";
-import { FooterSection } from "../features.js/FooterSection";
-import { HeaderSection } from "../features.js/HeaderSection";
-import { LittleStar } from "../icons/LittleStar";
-import { useState, useEffect, useReducer } from "react";
+import { HeaderSection } from "@/app/features.js/HeaderSection";
+import { LittleStar } from "@/app/icons/LittleStar";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FooterSection } from "@/app/features.js/FooterSection";
+import { Button } from "../components/Buttons";
+import { useParams } from "next/navigation";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
 
-export default function PopularPage() {
+export default function SimilarPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [dark, setDark] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const params = useParams();
+
+  const movieId = params.id;
 
   const getData = async () => {
     const response = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      `https://api.themoviedb.org/3/movie/${movie.id}/similar?language=en-US&page=1`,
       { headers: { Authorization: `Bearer ${api_token}` } },
     );
-
     const jsonData = await response.json();
 
     return jsonData.results;
@@ -35,13 +37,13 @@ export default function PopularPage() {
         setLoading(false);
       });
   }, []);
-  console.log(data, "this is my data");
+
+  console.log(data);
 
   const router = useRouter();
 
   const handleMovieClick = (id) => {
     router.push(`/detail/${id}`);
-    console.log(id);
   };
   return (
     <>
@@ -49,7 +51,7 @@ export default function PopularPage() {
       <section className="w-full bg-white flex flex-col items-center py-8">
         {/* Header Section */}
         <div className="flex justify-between items-center w-full max-w-7xl px-4">
-          <h2 className="text-2xl font-semibold">Popular</h2>
+          <h2 className="text-2xl font-semibold">More like this</h2>
         </div>
 
         {/* Movie Grid */}
@@ -66,6 +68,7 @@ export default function PopularPage() {
                 onClick={() => handleMovieClick(movie.id)}
               >
                 {/* Movie Poster */}
+
                 <div
                   className="w-full h-80 bg-cover bg-center"
                   style={{

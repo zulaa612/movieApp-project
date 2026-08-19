@@ -177,7 +177,8 @@ export default function DetailPage() {
   };
 
   const navigateToSimilarCard = () => {
-    router.push("/similar");
+    router.push(`/similar/${movieId}`);
+    
   };
   return (
     <>

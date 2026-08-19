@@ -24,7 +24,8 @@ export const HeaderSection = (props) => {
         </button>
 
         {/*Search Button*/}
-        <button className="h-9 w-94.75 border border-gray-200 shadow-sm rounded-lg flex items-center gap-2.5 text-gray-500 px-3 text-sm">
+        <button className="h-9 w-94.75 border border-gray-200 shadow-sm rounded-lg flex items-center gap-2.5 text-gray-500 px-3 text-sm"
+        style={{cursor: "pointer"}}>
           <SearchButton />
           Search...
         </button>

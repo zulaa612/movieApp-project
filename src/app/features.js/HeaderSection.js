@@ -2,13 +2,20 @@ import { GenreIcon } from "../icons/GenreIcon";
 import { Logo } from "../icons/Logo";
 import { SearchButton } from "../icons/SearchButton";
 import { ModeButton } from "../icons/ModeButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export const HeaderSection = (props) => {
   const router = useRouter();
   const navigateToHomePage = () => {
     router.push("/");
   };
+
+const SearchButton = (props) => {
+  const[searchValue, setSearchValue] = useState;
+
+}
+
   return (
     <div className="w-full h-14.75 bg-white">
       <div
@@ -25,7 +32,8 @@ export const HeaderSection = (props) => {
 
         {/*Search Button*/}
         <button className="h-9 w-94.75 border border-gray-200 shadow-sm rounded-lg flex items-center gap-2.5 text-gray-500 px-3 text-sm"
-        style={{cursor: "pointer"}}>
+        style={{cursor: "pointer"}}
+        >
           <SearchButton />
           Search...
         </button>

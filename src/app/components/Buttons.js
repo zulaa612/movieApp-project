@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PagesLeftArrow } from "../icons/PagesLeftArrow";
 import { PagesRightArrow } from "../icons/PagesRightArrow";
 
@@ -10,6 +11,7 @@ export const Button = (props) => {
     iconPosition,
     className = "",
   } = props;
+  const [selectedPage, setSelectedPage] = useState([])
 
   return (
     <div className="w-7xl h-10 mt-8 flex text-sm items-center justify-end">

@@ -92,11 +92,11 @@ export const HeaderSection = () => {
                     <div
                       key={movie.id}
                       onClick={() => handleMovieClick(movie.id)}
-                      className="w-full flex items-center justify-between p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                      className="w-full flex items-center justify-between p-2 rounded-lg cursor-pointer hover:bg-gray-100 "
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-12 h-16 rounded bg-cover bg-center shrink-0 bg-gray-200"
+                          className="w-12 h-16 rounded bg-cover bg-center bg-gray-200"
                           style={{
                             backgroundImage: movie.poster_path
                               ? `url(https://image.tmdb.org/t/p/w92${movie.poster_path})`
@@ -104,7 +104,7 @@ export const HeaderSection = () => {
                           }}
                         />
                         <div className="flex flex-col justify-center">
-                          <p className="text-base font-semibold text-black leading-tight line-clamp-1">
+                          <p className="text-base font-semibold text-black ">
                             {movie.title}
                           </p>
                           <div className="flex items-center gap-1 text-xs text-black font-medium mt-1">
@@ -116,7 +116,7 @@ export const HeaderSection = () => {
                             </span>
                             <span className="text-gray-400">/10</span>
                           </div>
-                          <p className="text-xs text-gray-500 mt-2 font-medium">
+                          <p className="text-xs mt-2 font-medium">
                             {movie.release_date
                               ? movie.release_date.slice(0, 4)
                               : "N/A"}
@@ -136,7 +136,7 @@ export const HeaderSection = () => {
                   onClick={handleSearch}
                   className="w-full text-left p-3 text-sm font-medium text-black border-t border-gray-100 hover:bg-gray-50 mt-1 rounded-b-lg"
                 >
-                  See all results for
+                  See all results for &quot;{search}&quot;
                 </button>
               </div>
             )}

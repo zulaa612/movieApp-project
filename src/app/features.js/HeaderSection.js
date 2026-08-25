@@ -37,7 +37,7 @@ export const HeaderSection = () => {
     } catch (error) {
       console.error("Search error: ", error);
       setSearchResult([]);
-    }
+    }3
   };
 
   const handleSearch = () => {
@@ -51,9 +51,13 @@ export const HeaderSection = () => {
   };
 
   const handleMovieClick = (movieId) => {
-    router.push(`/details/${movieId}`);
+    router.push(`/detail/${movieId}`);
     setSearchResult([]);
   };
+
+  /* const handleGenreClick = (movieId) => {
+    router.push
+  } */
 
   return (
     <div className="w-full h-14 bg-white border-b border-gray-100 relative z-50">
@@ -65,7 +69,7 @@ export const HeaderSection = () => {
 
         {/* Search & Genre Container */}
         <div className="flex items-center gap-3">
-          <button className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50">
+          <button className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50 cursor-pointer">
             <GenreIcon />
             Genre
           </button>
@@ -86,35 +90,41 @@ export const HeaderSection = () => {
 
             {/* Floating Search Result Dropdown */}
             {searchResult.length > 0 && (
-              <div className="absolute top-full mt-2 left-0 w-[500px] bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden flex flex-col p-2">
-                <div className="max-h-[380px] overflow-y-auto flex flex-col gap-1">
+              <div className="absolute w-144.25 bg-white border border-gray-200 rounded-xl shadow-xl  flex flex-col ">
+                <div className="max-h-182.25 w-144.25 flex flex-col">
                   {searchResult.map((movie) => (
                     <div
                       key={movie.id}
-                      onClick={() => handleMovieClick(movie.id)}
-                      className="w-full flex items-center justify-between p-2 rounded-lg cursor-pointer hover:bg-gray-100 "
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 "
                     >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="w-12 h-16 rounded bg-cover bg-center bg-gray-200"
+                      <div className="flex gap-3">
+                        <button
+                          type="button"
+                          className="w-16.75 h-25 rounded bg-cover bg-center bg-gray-200 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMovieClick(movie.id);
+                          }}
                           style={{
                             backgroundImage: movie.poster_path
                               ? `url(https://image.tmdb.org/t/p/w92${movie.poster_path})`
                               : "none",
                           }}
                         />
-                        <div className="flex flex-col justify-center">
-                          <p className="text-base font-semibold text-black ">
+                        <div className="flex flex-col">
+                          <p className="text-xl font-semibold text-black ">
                             {movie.title}
                           </p>
-                          <div className="flex items-center gap-1 text-xs text-black font-medium mt-1">
+                          <div className="flex text-sm text-black font-medium ">
                             <LittleStar />
                             <span>
                               {movie.vote_average
                                 ? movie.vote_average.toFixed(1)
                                 : "N/A"}
                             </span>
-                            <span className="text-gray-400">/10</span>
+                            <span className="text-gray-400 text-xs flex items-center">
+                              /10
+                            </span>
                           </div>
                           <p className="text-xs mt-2 font-medium">
                             {movie.release_date
@@ -123,10 +133,16 @@ export const HeaderSection = () => {
                           </p>
                         </div>
                       </div>
-
-                      <span className="text-xs font-medium text-gray-700 flex items-center gap-1 hover:underline">
+                      <button
+                        type="button"
+                        className="text-sm font-medium text-gray-700 flex items-center hover:underline cursor-pointer mr-5 gap-2"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleMovieClick(movie.id);
+                        }}
+                      >
                         See more <ArrowRight />
-                      </span>
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -134,7 +150,7 @@ export const HeaderSection = () => {
                 {/* Bottom Link matching screenshot */}
                 <button
                   onClick={handleSearch}
-                  className="w-full text-left p-3 text-sm font-medium text-black border-t border-gray-100 hover:bg-gray-50 mt-1 rounded-b-lg"
+                  className="w-full text-left p-3 text-sm font-medium text-black border-t border-gray-100 hover:bg-gray-50 mt-1 rounded-b-lg cursor-pointer"
                 >
                   See all results for &quot;{search}&quot;
                 </button>

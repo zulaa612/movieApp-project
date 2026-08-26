@@ -37,7 +37,7 @@ export const HeaderSection = () => {
     } catch (error) {
       console.error("Search error: ", error);
       setSearchResult([]);
-    }3
+    }
   };
 
   const handleSearch = () => {

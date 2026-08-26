@@ -14,8 +14,28 @@ export const HeaderSection = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [genre, setGenre] = useState([]);
+  const [genreDrop, setGenreDrop] = useState(false);
 
   const navigateToHomePage = () => router.push("/");
+
+  useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/genre/movie/list?language=en-US`,
+          { headers: { Authorization: `Bearer ${api_token}` } },
+        );
+        if (!response.ok) {
+          const data = await response.json();
+          setGenre(data.genre || []);
+        }
+      } catch (error) {
+        console.log("GENRE CAN'T CONNECT");
+      }
+    };
+    fetchGenre();
+  }, []);
 
   const handleSearchInput = async (e) => {
     const searchValue = e.target.value;
@@ -69,7 +89,10 @@ export const HeaderSection = () => {
 
         {/* Search & Genre Container */}
         <div className="flex items-center gap-3">
-          <button className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50 cursor-pointer">
+          <button
+            onClick={() => setGenre(!genre)}
+            className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50 cursor-pointer"
+          >
             <GenreIcon />
             Genre
           </button>
@@ -147,7 +170,7 @@ export const HeaderSection = () => {
                   ))}
                 </div>
 
-                {/* Bottom Link matching screenshot */}
+                {/* Matching movies Section */}
                 <button
                   onClick={handleSearch}
                   className="w-full text-left p-3 text-sm font-medium text-black border-t border-gray-100 hover:bg-gray-50 mt-1 rounded-b-lg cursor-pointer"
@@ -159,10 +182,7 @@ export const HeaderSection = () => {
           </div>
         </div>
 
-        {/* Theme Button */}
-        <button className="p-2 rounded-lg hover:bg-gray-100">
-          <ModeButton />
-        </button>
+        <ModeButton />
       </div>
     </div>
   );

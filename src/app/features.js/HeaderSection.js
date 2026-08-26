@@ -27,9 +27,10 @@ export const HeaderSection = () => {
           { headers: { Authorization: `Bearer ${api_token}` } },
         );
         if (!response.ok) {
-          const data = await response.json();
-          setGenre(data.genre || []);
+          throw new Error("GENRE NOT FOUND");
         }
+        const data = await response.json();
+        setGenre(data.genre || []);
       } catch (error) {
         console.log("GENRE CAN'T CONNECT");
       }
@@ -89,13 +90,35 @@ export const HeaderSection = () => {
 
         {/* Search & Genre Container */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setGenre(!genre)}
-            className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50 cursor-pointer"
-          >
-            <GenreIcon />
-            Genre
-          </button>
+          {/*Genre Section */}
+          <div>
+            <button
+              onClick={() => setGenreDrop(!genreDrop)}
+              className="flex h-9 px-3 border border-gray-200 shadow-sm rounded-lg items-center gap-2 justify-center text-sm font-medium hover:bg-gray-50 cursor-pointer"
+            >
+              <GenreIcon />
+              Genre
+            </button>
+
+            {genreDrop && (
+              <div className="absolute w-144.25 h-83.25 bg-white border-gray-200 rounded-2xl shadow-xl p-6 z-50">
+                <span className="text-2xl font-semibold ">Genres</span>
+                <p className="text-sm ">See lists of movies by genre</p>
+                <div className="w-full h-px bg-gray-200 mt-4" />
+                <div className="flex flex-wrap gap-2">
+                  {genre.map((item) => (
+                    <button
+                      key={item.id}
+                      className="flex items-center gap-1.5 py-1.5 border border-gray-200 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                    >
+                      {item.name}
+                      <ArrowRight />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Search Input Container */}
           <div className="relative">

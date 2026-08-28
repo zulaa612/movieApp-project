@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "../icons/ArrowRight";
 import { LittleStar } from "../icons/LittleStar";
+import { GenreRight } from "../icons/GenreRight";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
@@ -30,7 +31,7 @@ export const HeaderSection = () => {
           throw new Error("GENRE NOT FOUND");
         }
         const data = await response.json();
-        setGenre(data.genre || []);
+        setGenre(data.genres || []);
       } catch (error) {
         console.log("GENRE CAN'T CONNECT");
       }
@@ -76,9 +77,11 @@ export const HeaderSection = () => {
     setSearchResult([]);
   };
 
-  /* const handleGenreClick = (movieId) => {
-    router.push
-  } */
+  const handleGenreClick = (genreId) => {
+    router.push(`/genres/${genreId}`);
+    setGenreDrop(false);
+  };
+
 
   return (
     <div className="w-full h-14 bg-white border-b border-gray-100 relative z-50">
@@ -109,10 +112,11 @@ export const HeaderSection = () => {
                   {genre.map((item) => (
                     <button
                       key={item.id}
-                      className="flex items-center gap-1.5 py-1.5 border border-gray-200 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                      onClick={() => handleGenreClick(item.id)}
+                      className="flex items-center gap-1.5 py-1.5 border border-gray-200 rounded-full text-xs font-semibold hover:bg-gray-200 transition-colors cursor-pointer p-4 mt-2"
                     >
                       {item.name}
-                      <ArrowRight />
+                      <GenreRight />
                     </button>
                   ))}
                 </div>

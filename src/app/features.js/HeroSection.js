@@ -5,7 +5,7 @@ import { HeroScroll } from "../icons/HeroScroll";
 
 export const HeroSection = (props) => {
   return (
-    <div className="w-full h-150 bg-black mt-6">
+    <div className="w-full h-150 bg-black">
       <div className="absolute left-[8%] top-0.5 z-10 w-85.5 -translate-y-0.5 text-white mt-44.5">
         <p className="text-sm">Now Playing:</p>
 

@@ -78,7 +78,7 @@ export const HeaderSection = () => {
   };
 
   const handleGenreClick = (genreId) => {
-    router.push(`/genres/${genreId}`);
+    router.push(`/genres?genres=${genreId}`);
     setGenreDrop(false);
   };
 

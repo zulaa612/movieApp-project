@@ -1,11 +1,15 @@
 "use client";
 
+import { HeaderSection } from "@/app/features.js/HeaderSection";
+import { ArrowRight } from "@/app/icons/ArrowRight";
+import { DetailStar } from "@/app/icons/DetailStar";
+import { LittleStar } from "@/app/icons/LittleStar";
+import { PlayTrailerButton } from "@/app/icons/PlayTrailerButton";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useCallback, useMemo } from "react";
-import { HeaderSection } from "../features.js/HeaderSection";
-import { FooterSection } from "../features.js/FooterSection";
-import { LittleStar } from "../icons/LittleStar";
-import { GenreRight } from "../icons/GenreRight";
+import { FooterSection } from "@/app/features.js/FooterSection";
+import { GenreRight } from "@/app/icons/GenreRight";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
@@ -21,32 +25,25 @@ export default function GenrePage() {
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Selected genre ids + current page come straight from the URL,
-  // so filters and pagination are shareable/bookmarkable.
-  const selectedGenreIds = useMemo(() => {
-    const raw = searchParams.get("genres");
-    return raw ? raw.split(",").map(Number).filter(Boolean) : [];
-  }, [searchParams]);
+  const genresRaw = searchParams.get("genres");
+  const selectedGenreIds = genresRaw
+    ? genresRaw.split(",").map(Number).filter(Boolean)
+    : [];
 
-  const page = useMemo(() => {
-    const raw = Number(searchParams.get("page"));
-    return raw && raw > 0 ? raw : 1;
-  }, [searchParams]);
+  const pageRaw = Number(searchParams.get("page"));
+  const page = pageRaw && pageRaw > 0 ? pageRaw : 1;
 
-  const updateParams = useCallback(
-    (next) => {
-      const params = new URLSearchParams(searchParams.toString());
-      Object.entries(next).forEach(([key, value]) => {
-        if (value === null || value === undefined || value === "") {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      });
-      router.push(`/genres?${params.toString()}`);
-    },
-    [router, searchParams],
-  );
+  const updateParams = (next) => {
+    const params = new URLSearchParams(searchParams.toString());
+    Object.entries(next).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    router.push(`/genres?${params.toString()}`);
+  };
 
   const toggleGenre = (id) => {
     const isSelected = selectedGenreIds.includes(id);
@@ -62,7 +59,6 @@ export default function GenrePage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Fetch the full genre list once.
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -83,7 +79,6 @@ export default function GenrePage() {
     fetchGenres();
   }, []);
 
-  // Fetch movies whenever the selected genres or page change.
   useEffect(() => {
     if (selectedGenreIds.length === 0) {
       setMovies([]);
@@ -118,7 +113,7 @@ export default function GenrePage() {
     };
 
     fetchMovies();
-  }, [selectedGenreIds, page]);
+  }, [genresRaw, page]);
 
   const handleMovieClick = (movieId) => router.push(`/detail/${movieId}`);
 
@@ -126,8 +121,7 @@ export default function GenrePage() {
     .filter((g) => selectedGenreIds.includes(g.id))
     .map((g) => g.name);
 
-  // Build a compact page-number list: 1 2 3 ... totalPages, sliding with current page.
-  const pageNumbers = useMemo(() => {
+  const buildPageNumbers = () => {
     const pages = [];
     const windowSize = 1;
     const add = (p) => pages.push(p);
@@ -145,7 +139,9 @@ export default function GenrePage() {
     if (totalPages > 1) add(totalPages);
 
     return pages;
-  }, [page, totalPages]);
+  };
+
+  const pageNumbers = buildPageNumbers();
 
   return (
     <>
@@ -188,7 +184,6 @@ export default function GenrePage() {
             </div>
           </aside>
 
-          {/* Main: results */}
           <div className="flex-1">
             <h2 className="text-2xl font-semibold">
               {selectedGenreIds.length === 0
@@ -238,7 +233,6 @@ export default function GenrePage() {
                 ))}
             </div>
 
-            {/* Pagination */}
             {!loading && !errorMessage && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-10">
                 <button

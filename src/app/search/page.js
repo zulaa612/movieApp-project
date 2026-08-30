@@ -5,7 +5,7 @@ import { HeaderSection } from "../features.js/HeaderSection";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FooterSection } from "../features.js/FooterSection";
-import { Button } from "../components/Buttons";
+import { Button } from "../components/ArrowButton";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";

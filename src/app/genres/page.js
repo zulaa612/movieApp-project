@@ -1,11 +1,7 @@
 "use client";
 
 import { HeaderSection } from "@/app/features.js/HeaderSection";
-import { ArrowRight } from "@/app/icons/ArrowRight";
-import { DetailStar } from "@/app/icons/DetailStar";
 import { LittleStar } from "@/app/icons/LittleStar";
-import { PlayTrailerButton } from "@/app/icons/PlayTrailerButton";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FooterSection } from "@/app/features.js/FooterSection";

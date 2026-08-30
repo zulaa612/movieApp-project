@@ -8,6 +8,7 @@ import { ArrowRight } from "../icons/ArrowRight";
 import { LittleStar } from "../icons/LittleStar";
 import { GenreRight } from "../icons/GenreRight";
 
+
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YzdlYjUxYzU3YjgyMmMxNWY5N2UwZGNkMTk5Njg0OSIsIm5iZiI6MTc4NjU4NTA5Mi44OTIsInN1YiI6IjZhN2QyMDA0MjU5OGQ3ZDEwMGI3YWM5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ssQnCIr7uHT0OQOFQdAoh7LsZxhJF4BCADV6hwCU8G8";
 
@@ -81,7 +82,6 @@ export const HeaderSection = () => {
     router.push(`/genres?genres=${genreId}`);
     setGenreDrop(false);
   };
-
 
   return (
     <div className="w-full h-14 bg-white border-b border-gray-100 relative z-50">

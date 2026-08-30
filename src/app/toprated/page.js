@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../components/Buttons";
+import { Button } from "../components/ArrowButton";
 import { FooterSection } from "../features.js/FooterSection";
 import { HeaderSection } from "../features.js/HeaderSection";
 import { LittleStar } from "../icons/LittleStar";

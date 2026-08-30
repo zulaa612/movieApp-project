@@ -4,7 +4,7 @@ import { FooterSection } from "../features.js/FooterSection";
 import { HeaderSection } from "../features.js/HeaderSection";
 import { LittleStar } from "../icons/LittleStar";
 import { useState, useEffect } from "react";
-import { Button } from "../components/Buttons";
+import { Button } from "../components/ArrowButton";
 import { useRouter } from "next/navigation";
 
 const api_token =

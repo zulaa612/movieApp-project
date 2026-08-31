@@ -18,15 +18,16 @@ export const HeroSection = (props) => {
           </span>
         </div>
 
-        <p className="mt-5 text-xs leading-5 ">
+        <p className="mt-5 text-xs leading-5">
           Elphaba, a misunderstood young woman because of her green skin, and
           Glinda, a popular girl, become friends at Shiz University in the Land
           of Oz. After an encounter with the Wonderful Wizard of Oz, their
           friendship reaches a crossroads.{" "}
+          <button className="flex justify-center absolute ml-325">
+            <HeroScroll />
+          </button>
         </p>
-        <button className="flex justify-center">
-          <HeroScroll />
-        </button>
+
         <button className="mt-5 rounded-lg bg-white px-4 py-2 text-sm text-black flex gap-2 items-center">
           <HeroWatch />
           Watch Trailer
